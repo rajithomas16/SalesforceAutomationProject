@@ -1,0 +1,15 @@
+# Compiled Java files
+target/
+*.class
+
+# IDE files
+.idea/
+*.iml
+.settings/
+.project/
+.classpath/
+
+# Secrets (Don't upload your passwords!)
+# If you put real passwords in these, un-comment the lines below
+# src/test/resources/config/qa.properties
+# src/test/resources/config/uat.properties
