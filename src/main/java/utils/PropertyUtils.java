@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ConfigReader {
+public class PropertyUtils {
 
     private static Properties properties;
 //A static block runs as soon as the class is loaded into memory.
