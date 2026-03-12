@@ -1,15 +1,33 @@
-# Compiled Java files
-target/
+# Compiled Java classes
 *.class
 
-# IDE files
+# Log files
+*.log
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+
+# It prevents the massive 'target' folder from being pushed
+target/
+
+# Allure Reporting - Generated results shouldn't be tracked
+allure-results/
+allure-report/
+
+# IntelliJ IDEA files
 .idea/
 *.iml
-.settings/
-.project/
-.classpath/
+*.iws
 
-# Secrets (Don't upload your passwords!)
-# If you put real passwords in these, un-comment the lines below
-# src/test/resources/config/qa.properties
-# src/test/resources/config/uat.properties
+# Eclipse files
+.settings/
+.project
+.classpath
+bin/
+
+# Environment specific files (Optional)
+# If you store sensitive passwords in these, don't push them
+# config.properties
