@@ -19,7 +19,7 @@ public class PropertyUtils {
             }
             /// 2. Dynamically build the file path based on the environment
 
-        String path="src/test/resources/config"+ env +".properties";
+            String path="src/test/resources/config"+ env +".properties";
             System.out.println("Loading configuration for environment: " + env);
 
             FileInputStream input=new FileInputStream(path);

@@ -11,42 +11,44 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 //ChromeOptions: I added ChromeOptions for "Incognito" mode or "Headless" mode
 public class DriverManager {
 
-    private static WebDriver driver;
-//   DriverManager: "I implemented a Singleton-based DriverManager using Selenium Manager.
-//   It handles browser initialization dynamically and ensures we have a single, clean WebDriver instance across the execution."
-    private DriverManager() {
-    }//private constructor so that no other class can create object
-//method to pull active browser instance using singleton pattern
-    public static WebDriver getDriver() {
-        if (driver == null) {
-            String browser = PropertyUtils.getProperty("browser").toLowerCase();
+    //Threadsafe-For parallel execution like 5 test at a time-5 tests will try to use the same driver variable .So we need Threadlocal.
+    //One instance for one specific thread, while other threads get their own separate instances.
 
-            switch (browser) {
+    private static ThreadLocal<WebDriver> driverPool=new ThreadLocal<>();
 
-                case "chrome":
 
-                    ChromeOptions chromeOptions = new ChromeOptions();//for
-                    chromeOptions.addArguments("--start-maximised");
-                    driver = new ChromeDriver(chromeOptions);
+    private DriverManager() {//private constructor so that no other class can create object
 
-                case "firefox":
-
-                    FirefoxOptions firefoxOptions = new FirefoxOptions();//for
-
-                    driver = new FirefoxDriver(firefoxOptions);
-
-                default:
-                    throw new RuntimeException("Unsupported Browser : " + browser);
-
-            }
-        }
-        return driver;
     }
 
+    public static WebDriver getDriver() {
+        if (driverPool.get() == null) {//driverPool.get() provides a "singleton" instance per thread.
+
+            String browser = PropertyUtils.getProperty("browser").toLowerCase();
+
+            if(browser.equalsIgnoreCase("chrome"))
+            {
+                ChromeOptions options= new ChromeOptions();
+                options.addArguments("--start-maximized");
+                driverPool.set(new ChromeDriver(options));
+
+            } else if (browser.equalsIgnoreCase("firefox"))
+            {
+                driverPool.set(new FirefoxDriver());
+            }
+        else {
+            throw new RuntimeException("Invalid browser name: " + browser);
+        }
+    }
+        return driverPool.get();//webdriver instance
+
+        }
+
+
     public static void quitDriver() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
+        if (driverPool != null) {//This checks if the current thread has an active WebDriver instance
+            driverPool.get().quit();//This commands Selenium to close all browser windows associated with that driver instance and terminates the browser driver process
+            driverPool = null;//This is critical for preventing memory leaks. It removes the driver instance from the ThreadLocal map for the current thread.
         }
     }
 }
