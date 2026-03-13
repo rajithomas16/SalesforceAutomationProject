@@ -1,4 +1,4 @@
-package step_definitions;
+package stepdefs;
 
 import base.DriverManager;
 import utils.PropertyUtils;

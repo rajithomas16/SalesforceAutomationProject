@@ -16,6 +16,7 @@ public class ReportUtils {
 @Step("{0}")
 public static void logStep(String message) {
     System.out.println("LOG: " + message);
+    Allure.step(message);//pushes the log message to the Allure report
 }
 
     /**
