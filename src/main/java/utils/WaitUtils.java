@@ -14,7 +14,7 @@ import java.time.Duration;
 
 public class WaitUtils {
 //1. Centralized Timeout - Easy to change framework-wide
-    public static final Duration TIMEOUT=Duration.ofSeconds(10);
+    public static final Duration TIMEOUT=Duration.ofSeconds(10) ;
     /**
      * Waits for an element to be visible in the DOM and on the UI.1.
      * Is the element in the HTML? 2. Is its height and width greater than zero?
