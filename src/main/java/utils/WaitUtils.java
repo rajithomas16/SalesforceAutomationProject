@@ -29,7 +29,7 @@ public class WaitUtils {
      * Essential for buttons that might be greyed out during page load.
      */
     public static WebElement waitForClickability(WebElement element) {
-        /** this is new comments. Use this as well **/
+        /** test comments this is new comments. Use this as well **/
         WebDriverWait wait= new WebDriverWait(DriverManager.getDriver(),TIMEOUT);
         return wait.until(ExpectedConditions.elementToBeClickable(element));
 
