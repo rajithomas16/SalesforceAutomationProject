@@ -24,13 +24,17 @@ public class DriverManager {
 
     public static WebDriver getDriver() {
         if (driverPool.get() == null) {//driverPool.get() provides a "singleton" instance per thread.
-
+//retreive property called browser from property file
             String browser = PropertyUtils.getProperty("browser").toLowerCase();
 
             if(browser.equalsIgnoreCase("chrome"))
             {
                 ChromeOptions options= new ChromeOptions();
+                //for local debugging
                 options.addArguments("--start-maximized");
+
+                //for ci cd stability
+                options.addArguments("--headless");
                 driverPool.set(new ChromeDriver(options));
 
             } else if (browser.equalsIgnoreCase("firefox"))
@@ -49,7 +53,7 @@ public class DriverManager {
     public static void quitDriver() {
         if (driverPool != null) {//This checks if the current thread has an active WebDriver instance
             driverPool.get().quit();//This commands Selenium to close all browser windows associated with that driver instance and terminates the browser driver process
-            driverPool = null;//This is critical for preventing memory leaks. It removes the driver instance from the ThreadLocal map for the current thread.
+            driverPool.remove();//This is critical for preventing memory leaks. clears only the individual locker for the thread that just finished, leaving the room open for others.
         }
     }
 }
